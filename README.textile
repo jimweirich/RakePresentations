@@ -12,6 +12,4 @@ p. More advanced Rake techniques.
 
 h2. License
 
-These presentation are available under the
-"Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)":http://creativecommons.org/licenses/by-nc-sa/3.0/
-Creative Commons library.
+These presentation are available under the "Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)":http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons library.
