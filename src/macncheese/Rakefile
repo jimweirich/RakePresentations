@@ -1,0 +1,60 @@
+task :default => :mac_and_cheese
+
+desc "Make some Mac & Cheese"
+task :mac_and_cheese => [:boil_water, :buy_pasta, :buy_cheese] do
+  puts "Making Mac & Cheese"
+end
+
+desc "Buy some delicious cheese"
+task :buy_cheese => [:go_to_store] do
+  puts "Buying Cheese"
+end
+
+desc "Buy some quality pasta"
+task :buy_pasta => [:go_to_store] do
+  puts "Buying Pasta"
+end
+
+desc "Boil some water"
+task :boil_water => [:buy_pasta, :buy_cheese] do
+  puts "Boiling Water"
+end
+
+task :go_to_store do
+  puts "Going to the Store"
+end
+
+namespace :apple do
+  task :go_to_store do
+    puts "Going to the Apple Store"
+  end
+end
+
+task :show_current_directory do
+  puts `pwd`
+end
+
+task :show_stuff do
+  puts "STUFF = #{ENV['STUFF']}"
+end
+
+task :backup do
+  mkdir_p "backup_files", verbose: false
+  verbose(false) do
+    cp "Rakefile", "backup_files/Rakefile"
+    cp_r "rakelib", "backup_files"
+  end
+end
+
+task :factorial do
+  n = (ENV['N'] || 10).to_i
+  fact = 1
+  (1..n).each do |i|
+    fact = fact * i
+  end
+  puts "Factorial of #{n} is #{fact}"
+end
+
+task :git_status do
+  sh "git status"
+end

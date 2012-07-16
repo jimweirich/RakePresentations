@@ -1,0 +1,43 @@
+require 'rake/clean'
+
+IMAGE_FILES = FileList['images/**/*.{png,jpg}']
+THUMB_FILES = IMAGE_FILES.pathmap("%{^images,thumbs}d/%n-thumb%x")
+
+IMAGE_DIRS = FileList['images/**/*'].select { |fn| File.directory?(fn) }
+THUMB_DIRS = IMAGE_DIRS.pathmap("%{^images,thumbs}p")
+
+THUMB_DIRS.each do |dir| directory dir end
+
+CLEAN.include(THUMB_FILES, "thumbs")
+CLOBBER.include("final.png")
+
+task :default => :convert
+
+task :convert => "final.png"
+
+directory "thumbs"
+
+# IMAGE_FILES.zip(THUMB_FILES).each do |source, target|
+#   containing_dir = target.pathmap("%d")
+#   directory containing_dir
+#   file target => [containing_dir, source] do
+#     mkdir_p containing_dir unless File.exist?(containing_dir)
+#     sh "convert -thumbnail 32x32 #{source} #{target}"
+#   end
+# end
+
+TO_IMAGE = lambda { |fn|
+  fn.pathmap("%{^thumbs,images}d/%{-thumb,}f")
+}
+
+rule /^thumbs\/.*-thumb.(gif|jpg|png)/i => [TO_IMAGE] + THUMB_DIRS do |r|
+  sh "convert -thumbnail 32x32 #{r.source} #{r.name}"
+end
+
+file "final.png" => THUMB_FILES do
+  sh "convert #{THUMB_FILES} -append final.png"
+end
+
+task :dbg do
+  puts THUMB_FILES
+end
